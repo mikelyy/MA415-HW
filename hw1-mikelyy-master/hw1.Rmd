@@ -1,0 +1,51 @@
+---
+title: "MA 415/615 Homework 1"
+author: "Your Name"
+output: github_document
+---
+
+In this homework I'm analyzing the `msleep` dataset from package `ggplot2`.
+I start by loading the packages:
+
+```{r init}
+library(tidyverse)
+msleep
+```
+
+**`[==[`** Note: instructions are framed with bold `[==[` and `]==]` and should be either removed (like this one!) or substituted by answers in the final version of your document. **`]==]`**
+
+
+## Question 1
+
+**`[==[`** Change the `q1` chunk to make a log-log plot of `brainwt` against `bodywt`, colored by `vore`. Comment on the relationship between the two variables; in particular, does it seem to be linear after the log transformations? **`]==]`**
+
+```{r q1}
+ggplot(msleep) + geom_point(aes(x = bodywt, y = brainwt))
+```
+
+
+## Question 2
+
+**`[==[`** Change the `q2` chunk to log transform `bodywt` and have horizontal boxplots. Comment on the relationship between "diet" and size of mammal. **`]==]`**
+
+```{r q2}
+ggplot(msleep) + geom_boxplot(aes(x = vore, y = bodywt))
+```
+
+
+## Question 3
+
+**`[==[`** Change the `q3` chunk to plot the *fraction* of total sleep in the day per conservation status, colored by `vore`, and jittered to avoid overplotting. Moreover, add *blue* crossbars with mean at the center and box limits at minimum and maximum. Look up "conservation status" in Wikipedia and comment on any pattern in fraction of sleep if species are less or more endangered. **`]==]`**
+
+```{r q3}
+ggplot(msleep) + geom_point(aes(x = conservation, y = sleep_total))
+```
+
+
+## Question 4
+
+**`[==[`** Substitute the command in chunk `q4` by a `ggplot` R command that would actually generate the figure. **`]==]`**
+
+```{r q4}
+knitr::include_graphics("figures/q4-template.png")
+```
