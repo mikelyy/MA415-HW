@@ -1,0 +1,60 @@
+---
+title: "MA 415/615 Homework 4"
+author: "**`[==[`** Your Name **`]==]`**"
+output: html_document
+---
+
+## Question 1
+My work is to perform a preliminary analysis of consumer behavior using sales
+data on **Black Friday**. I downloaded the
+[BlackFriday](https://www.kaggle.com/mehdidag/black-friday) dataset from Kaggle,
+and loaded it into a new dataset called `blackfriday`.
+
+**`[==[`**
+Download the `BlackFriday.csv` file from the web page linked above
+and put it in the `data` folder. NOTE: since this is a large file (~25Mb), do
+**not** add this file to your GitHub repository! If you do not wish to make a Kaggle account, then you can download the data set from Blackboard (the Kaggle site is still helpful in describing the data set).
+Now modify the `q1` chunk below to create a new dataset called `blackfriday`.
+Check that there are no errors when importing data. Then, check variables
+`Age`, `Marital_Status`, and `Purchase` for any unusual values. You do not have to actually do anything yet to *fix* the unusual values; just check for what they are. **Hint**: for continuous variables, remember that some plots will inform you if any observations have been removed.
+**`]==]`**
+
+```{r q1, eval = FALSE}
+library(tidyverse)
+```
+
+
+## Question 2
+
+**`[==[`**
+In a `q2` chunk, `unite` variables `Age` and `Marital_Status` into a new `agems`
+variable, then make a boxplot of price of purchases by `agems`. Is there any
+apparent difference of purchase prices among different age groups? Is there any
+age group where marital status seems to have an effect on purchase prices, i.e, is there an *interation* between age group and marital status in terms of their effect on purchase price?
+**`]==]`**
+
+
+## Question 3
+
+**`[==[`**
+Columns `Product_Category_1`, `Product_Category_2` and `Product_Category_3`
+specify up to 3 categories for each product. Let us first check that the
+category specification is consistent: check that (i) there are no missing values
+for `Product_Category_1`, and (ii) if `Product_Category_2` is missing, then so
+is `Product_Category_3`. Use a chunk labeled `q3` for the check. Next, `gather`
+these three columns into two columns: `Prod_Category`, with the category order
+(`Product_Category_1`, `Product_Category_2`, or `Product_Category_3`) and
+`Prod_Category_ID`, with the category ID (the actual observation). Remove any observations with missing
+values in `Prod_Category_ID`. Store this new dataset in `blackfriday_cat`.
+**`]==]`**
+
+
+## Question 4
+
+**`[==[`**
+Create a new `q4` chunk to make boxplots of purchase price by product category (the newly created `Prod_Category_ID`).
+Reorder the categories by increasing purchase price (use the function that we usually use) and color (fill) the boxplots by
+the number of purchases of that product category. You might need to tell R that `Prod_Category_ID` is a categorical variable despite being a number. Are there any apparent patterns between purchase price, counts,
+and product categories? Explain why this operation is easier after processing
+product category in Question 3.
+**`]==]`**
