@@ -1,0 +1,101 @@
+---
+title: "MA 415/615 Homework 7"
+author: "**`[==[`** Your Name **`]==]`**"
+output: html_document
+---
+
+
+## Question 1
+
+**`[==[`**
+
+Let's start by loading packages `tidyverse`, `nycflights13`, and `geosphere`
+(most likely you'll have to install the last one). The `dist_geo` function
+below computes the geographic distance between a set of points specified by their
+longitudes and latitutes in vectors `lon_from` and `lat_from` and a point with
+geo-coordinates `lon_to` and `lat_to`. First, using the `airports` dataset,
+find the longitude and latitude of the JFK airport. Then, using the `dist_geo`
+function, build a new data frame called `flights_dist` that extends the
+`flights` dataset by adding the distances from each `dest` airport to JFK in a
+new variable called `dist`. To create `flights_dist`, first compute the
+distances using `airports` and then do an inner join with `flights`. Make a
+plot of `log(dist)` against `log(distance)` to check if they are in good
+agreement.
+
+```{r q1, eval = FALSE}
+# `lon` and `lat` can be vectors
+dist_geo <- function (lon_from, lat_from, lon_to, lat_to) {
+  geosphere::distGeo(cbind(lon_from, lat_from), c(lon_to, lat_to))
+}
+```
+
+**`]==]`**
+
+
+## Question 2
+
+**`[==[`**
+
+You reason that if a flight had a departure delay then it should have more
+time to make it up and reduce arrival delay if it travels a longer distance.
+To check this assumption, fit a linear model of made-up time explained by log
+distance: first create a new dataset `flights_mt` with a new variable
+`madeup_time` containing the difference between departure and arrival delays
+(filter any canceled flights with missing `arr_delay`), then fit the linear model and make a plot of
+`madeup_time` against `log(dist)` and add the fitted line in red (since there
+are many observations, plot the points with `alpha = .3`). If you're traveling to Los Angeles
+international airport and your flight left JFK with a 30 minute delay, what is
+your prediction for the arrival delay according to the fitted model?
+
+**`]==]`**
+
+
+## Question 3
+
+**`[==[`**
+
+Conduct a hypothesis test to determine whether there is a significant linear relationship between log distance and made-up time at the level of $\alpha = 0.05$. Compute a 95\% confidence interval for the predicted change in made-up time per unit increase in log distance. Does the confidence interval agree with the result of the hypothesis test? (think about the connection between the two) To determine whether your hypothesis test and confidence interval are appropriate interpretation tools, check the assumptions of the linear model via residual plots (the two we specifically talked about in class). Based on these plots, what can you say about the assumptions of the linear model? Should we be cautious when interpreting the hypothesis test? 
+
+
+**`]==]`**
+
+
+## Question 4
+
+
+**`[==[`**
+
+In Lecture 11 we studied the on-time performance of flights. Recall that we
+considered only "representative" trips made by carriers with at least 100
+flights and flights with at least 50 trips:
+
+```{r q3, eval = FALSE}
+rep_flights <- flights %>%
+  group_by(carrier) %>% filter(n_distinct(flight) > 100) %>%
+  group_by(carrier, flight) %>% filter(n() > 50) %>% ungroup()
+```
+
+There are two main effects that can affect the odds of a flight being on-time:
+the airport load on the day of the trip and the carrier. To study these
+effects and model on-time probabilities, start by creating a dataset called
+`flights_load` with the number of trips leaving each NYC airport (variable
+`origin` in `flights`) per day and month in a new variable `trips`. Now join this
+dataset with `rep_flights` and add a new variable `ontime` that indicates if
+the trip is on-time or not (i.e., `ontime` is 1 if the trip is on-time and 0
+otherwise). A trip is on-time if it wasn't canceled (`arr_delay` not missing) and left with an arrival
+delay less than 15 minutes.
+
+**`]==]`**
+
+
+## Question 5
+
+**`[==[`**
+
+Finally, fit a logistic regression model of `ontime` vs `trips` and `carrier`,
+but without an intercept so we can see the direct effect of each carrier on
+the odds of a trip being on-time. List the coefficients; what's the effect of
+`trips`? Is it what you expected? If flying Delta, how many trips would be needed for your predicted
+probability of the flight being on-time to be 50%?
+
+**`]==]`**
