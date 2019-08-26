@@ -1,0 +1,44 @@
+---
+title: "MA 415/615 Homework 6"
+author: "Yuyang Li"
+output: github_document
+---
+
+
+## Question 1
+
+```{r q1}
+t_alpha_2 <- function(df=lnf, alpha=0.05){
+  if(is.na(df)){df=lnf}
+  if(is.na(alpha)){alpha=0.05}
+  qt(1-alpha/2,df)
+}
+```
+
+
+## Question 2
+
+```{r q2}
+library(tidyverse)
+t_data <- function(x){n<-length(x)
+tibble(y=mean(x), ymin=mean(x)-t_alpha_2(n-1, 0.05)%*% sd(x)/sqrt(n),ymax=mean(x)+t_alpha_2(n-1,0.05)%*% sd(x)/sqrt(n))}
+mpg%>%ggplot(aes(x=drv, y=hwy))+geom_point(position="jitter")+stat_summary(fun.data=t_data, geom="crossbar", color="red")
+```
+
+## Question 3
+
+```{r q3}
+z_score<-function(x=NA,mu=NA,sigma=NA){
+  if(is.na(mu)){mu=mean(x)}
+  if(is.na(sigma)){sigma=sd(x)}
+  z<-vector("double",length(x))
+  for(i in seq_along(x)){
+    z[i]<-(x[[i]]-mu)/sigma
+  }
+ z
+}
+
+mpg%>%group_by(drv)%>%ggplot(aes(x=drv, y=z_score(x=hwy)))+geom_point(position="jitter")+stat_summary(fun.data=t_data, geom="crossbar", color="red")
+```
+
+
