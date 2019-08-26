@@ -1,0 +1,63 @@
+---
+title: "MA 415/615 Homework 2"
+author: "**`[==[`** Your Name **`]==]`**"
+output: html_document
+---
+
+In this homework, we're performing a more detailed analysis of the `nycflights13` dataset we saw in lecture. This data set contains flight information from all flghts that departed NYC in 2013. We start by loading the packages:
+
+```{r init}
+library(tidyverse)
+library(nycflights13)
+```
+
+**`[==[`** Note: instructions are framed with bold `[==[` and `]==]` and should be either removed (like this one!) or substituted by answers in the final version of your document. **`]==]`**
+
+
+## Question 1
+
+Here are the top 4 carriers in total number of flights departing NYC in 2013:
+
+**`[==[`** Change the `q1` chunk to create a dataset with only the top **4** carriers in total number of flights, then store these carriers in variable `big_carriers`. Recall that `dataset$variable` extracts `variable` values from `dataset`. **`]==]`**
+
+```{r q1}
+unique(flights$carrier) # all carriers
+(big_carriers <- c("AA", "UA", "DL"))
+```
+
+
+## Question 2
+
+Here are the proportion of canceled flights for the top 4 carriers at each origin airport:
+
+**`[==[`** Change the `q2` chunk to compute the proportion of canceled flights for each top carrier and origin, and arrange them by origin and decreasingly by proportion. A cancelled flight has missing data for arr_delay or dep_delay. **`]==]`**
+
+```{r q2}
+flights %>% filter(carrier %in% big_carriers) %>%
+  group_by(origin, carrier) %>%
+  summarize(prop_delayed = mean(between(dep_delay, 0, 30), na.rm = TRUE))
+```
+
+**`[==[`** Comment on the proportions and if some carrier seems to cancel more often depending on the origin airport. **`]==]`**
+
+
+## Question 3
+
+To investigate if there is any pattern of flight cancellations depending on the time of year, I first create a `canceled_by_doy` dataset with the proportion of canceled flights for each day of the year (`doy`) and `origin`:
+
+**`[==[`** Change the `q3` chunk to create the `canceled_by_doy` dataset as described above, but keep the definition of `doy`. Use `?` in R to determine what exctly `doy` is and how it is created. **`]==]`**
+
+```{r q3}
+flights %>% transmute(doy = as.integer(strftime(time_hour, format = "%j")))
+```
+
+
+## Question 4
+
+**`[==[`** Create a new `q4` chunk that uses `canceled_by_doy` to plot the proportions of canceled flights for each day of the year; color the points by `origin` and with alpha transparency of 0.3. Add a colored smoother for each origin, but without the confidence bands. **`]==]`**
+
+```r
+# `q4` here
+```
+
+**`[==[`** Comment on overall shape of curves and unusual days. **`]==]`**
