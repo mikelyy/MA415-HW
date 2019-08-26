@@ -1,0 +1,89 @@
+---
+title: "MA 415/615 Homework 5"
+author: "**`[==[`** Your Name **`]==]`**"
+output: html_document
+---
+
+## Question 1
+
+In this work I'll analyze the titles of papers presented at the NIPS
+conference from 1987 to 2017. The data in file `nips-titles.csv`, loaded into
+table `papers`, contains only two columns, `year` and `title` from the
+[original Kaggle dataset](https://www.kaggle.com/benhamner/nips-papers).
+As an initial check, I'm plotting the distribution of the number of words in a title
+for each year.
+
+
+**`[==[`**
+Modify the `q1` chunk below to load the needed libraries and load
+`nips-titles.csv` into dataset `papers`. The data set is on Blackboard. Check that `papers` has no problems.
+Now create a new variable `word_count` with the number of words in each title. Then make boxplots of the number of words per title for each year. Write a
+short assessment about the variability of title sizes over the years.
+**`]==]`**
+
+```{r q1}
+library(tibble) # just a placeholder, should be removed
+library(tidyr) # just a placeholder, should be removed
+```
+
+## Question 2
+
+**`[==[`**
+Modify chunk `q2` below to "cross" each title in `papers` with each keyword in
+`keywords`(your code should start with `papers %>% crossing(keywords)`; use the example below), then check if each title contains each keyword. Before
+checking, however, convert the words in the title to lower case since the
+keywords are all in lower case. Store the outcome of the check in a new variable called `keyword_in_title`: it should be `FALSE` if the keyword
+is absent and `TRUE` if present in the title. Then, for each year and keyword, count how many titles (in a new condensed data set)
+contain the keyword in the year, and store in variable `n`. (**Hint**: using `count` with `wt = ` a logical vector will sum the `TRUE`'s) Finally, using `spread`,
+cross-tabulate these counts for the last ten years by indexing rows by year
+and columns by keyword. Your final table should look like this after using `%>% tail(n = 10)`:
+
+```{r q2-info, echo = FALSE}
+tribble(
+  ~year, ~bayesian, ~data, ~deep, ~learning, ~models, ~networks, ~neural, ~optimization, ~stochastic,
+  2008L, 13L,       11L,   1L,    51L,       22L,     10L,       7L,      6L,            4L,         
+  2009L, 20L,       9L,    4L,    61L,       24L,     6L,        7L,      7L,            6L,         
+  2010L, 12L,       14L,   3L,    65L,       19L,     14L,       8L,      9L,            5L,         
+  2011L, 9L,        15L,   3L,    79L,       25L,     9L,        11L,     10L,           10L,        
+  2012L, 22L,       12L,   10L,   92L,       31L,     15L,       14L,     12L,           8L,         
+  2013L, 20L,       18L,   13L,   77L,       33L,     18L,       17L,     17L,           17L,        
+  2014L, 18L,       20L,   22L,   85L,       41L,     25L,       28L,     16L,           15L,        
+  2015L, 16L,       16L,   21L,   78L,       36L,     33L,       22L,     31L,           22L,        
+  2016L, 23L,       24L,   44L,   121L,      43L,     64L,       47L,     39L,           38L,        
+  2017L, 20L,       35L,   64L,   180L,      38L,     69L,       64L,     29L,           25L
+)
+```
+**`]==]`**
+
+```{r q2}
+keywords <- tibble(keyword = c("bayesian", "data", "deep", "models",
+              "networks", "neural", "learning", "optimization", "stochastic")) # keep and use this!
+# example of crossing between two tables:
+crossing(tibble(x = 1:3), tibble(y = letters[1:3]))
+```
+
+
+## Question 3
+
+**`[==[`**
+It's hard to assess counts in a table, so, in a chunk labeled `q3`, make a
+line plot of the keyword counts vs year with one line for each keyword
+(color each line by keyword). (**Hint**: use your code in Question 2 up until the point where you use `spread`. This data set should be used to make the plot) Comment on any specific patterns; for instance,
+what seems to be the most popular keyword? Any keywords declining or
+increasing in popularity over time?
+**`]==]`**
+
+
+## Question 4
+
+**`[==[`**
+The counts for some keyword can be increasing simply because the number of
+conference papers is increasing with the years. Thus, instead of plotting
+counts, make line plots of the **proportion** of papers in each year that had
+each keyword in their titles. To this end, in a `q4` chunk, first create a new
+dataset called `papers_year` with the counts of the number of papers per year and
+then **join** this data set by variable `year` with the title-keyword crossed dataset in Question 2 (again, use the data set made in Question 2 just prior to using `spread`). Then
+compute a new variable called `prop` with the proportion of titles containing
+each keyword by year. Finally, create the plot. Do your conclusions change
+when compared to the plot in Question 3? Comment.
+**`]==]`**
