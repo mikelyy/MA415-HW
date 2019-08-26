@@ -1,0 +1,62 @@
+---
+title: "MA 415/615 Homework 3"
+author: "**`[==[`** Your Name **`]==]`**"
+output: html_document
+---
+
+## Question 1
+
+My work is to perform a preliminary EDA of the **real state properties** in
+Boston in 2018. To this end, I downloaded the "Property Assessment FY2018"
+data file from the [Analyze Boston](https://data.boston.gov/dataset/property-assessment) web page, and
+loaded it into a new dataset called `property`.
+
+**`[==[`** Download the `ast2018full.csv` file from the web page linked above
+and put it in a `data` folder on your machine within your hw3 R project. NOTE: since this is a large file (~50Mb), do
+**not** add this file to your GitHub repository! 
+Now modify the `q1` chunk below to create a new dataset called `property` with
+only the following columns from `ast2018full.csv`: `PTYPE`, `LU`, `GROSS_TAX`,
+and `NUM_FLOORS`. Specify appropriate column types to avoid warnings and
+parsing errors, that is, `problems(property)` should be empty.
+**`]==]`**
+
+```{r q1, eval = FALSE}
+library(tidyverse)
+problems(property)
+```
+
+
+## Question 2
+
+There are many "unusual" values, including tax exempt properties. Next, I'm
+filtering out these cases to get a new dataset, `property_rep`.
+
+**`[==[`** Create a new `q2` chunk and filter `property` to only consider
+observations that belong to property types (`PTYPE`) that have median
+`GROSS_TAX` of less than 100 million and that contain at least 5 properties,
+then filter out properties that are tax exempt. Call this new dataset by
+`property_rep`. Don't forget to `ungroup` after any grouped filter or mutate!
+**`]==]`**
+
+
+## Question 3
+
+To summarize what I have in `property_rep`, here is a table with the
+proportions of properties by land use (`LU`), ordered by proportion, and the cumulative proportions.
+
+**`[==[`** Create a new `q3` chunk with a command to create the table above based on `property_rep`.
+**`]==]`**
+
+**`[==[`** Check the description of the codes for `LU` in the ["Property Assessment FY2018 data key"](https://data.boston.gov/dataset/property-assessment/resource/b8e32ddf-671f-4a35-b99f-c060bae958e5) and comment about the `LU` codes with the highest counts. Are they expected? 
+**`]==]`**
+
+
+## Question 4
+
+Finally, I summarize my findings with log gross tax boxplots for each land
+use.
+
+**`[==[`** Create a new `q4` R chunk with a command to make boxplots of log
+`GROSS_TAX` versus `LU` based on `property_rep`. Reorder the `LU` codes by
+median gross tax and color (fill) the boxplots with the count of properties
+for each land use. **`]==]`**
